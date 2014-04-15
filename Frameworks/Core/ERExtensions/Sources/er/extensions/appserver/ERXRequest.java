@@ -555,4 +555,39 @@ public  class ERXRequest extends WORequest {
 		}
 		return mutableUserInfo;
 	}
+	
+	/**
+	 * Gets the username from a authorization header. Only works with Basic.
+	 * Added by Klaus Berkling 20140415
+	 * 
+	 * @return the username
+	 */
+	public String basicAuthUsername() {
+		String username = null;
+		String authorizationHeader = this.headerForKey("authorization");
+		if (authorizationHeader != null) {
+			String encoded = authorizationHeader.substring(authorizationHeader.indexOf(" "));
+			String clear = new String(Base64.decodeBase64(encoded));
+			username = clear.substring(0, clear.indexOf(":"));
+		}
+		return username;
+	}
+
+	/**
+	 * Gets the password from a authorization header. Only works with Basic.
+	 * Added by Klaus Berkling 20140415
+	 * 
+	 * @return the password
+	 */
+	public String basicAuthPassword() {
+		String password = null;
+		String authorizationHeader = this.headerForKey("authorization");
+		if (authorizationHeader != null) {
+			String encoded = authorizationHeader.substring(authorizationHeader.indexOf(" "));
+			String clear = new String(Base64.decodeBase64(encoded));
+			password = clear.substring(clear.indexOf(":")+1, clear.length());
+		}
+		return password;
+	}
+
 }
