@@ -28,13 +28,6 @@ import er.extensions.localization.ERXLocalizer;
  * @author mschrag
  */
 public abstract class ERXComponent extends WOComponent {
-	
-	/**
-	 * String for realm used in HTTP AUTH.
-	 * Added by Klaus Berkling 20140314
-	 */
-	private String _authRealm = null;
-	
 	/**
 	 * Do I need to update serialVersionUID?
 	 * See section 5.6 <cite>Type Changes Affecting Serialization</cite> on page 51 of the 
@@ -1062,20 +1055,5 @@ public abstract class ERXComponent extends WOComponent {
    * </span>
 	 */
 	protected void postAppendToResponse(WOResponse response, WOContext context) {
-		// Acts on the an existing _authRealm set by requiresAuthentication(). Added by Klaus Berkling 201403015
-		if (_authRealm != null && _authRealm.length() > 0) {
-			response.setStatus(401);
-			response.setHeader("Basic realm=\"" + _authRealm + "\"", "WWW-Authenticate");
-		}
-	}
-	
-	/**
-	 * Allows one to set the authorization required status for the component
-	 * Added by Klaus Berkling 201403015
-	 * 
-	 * @param realm
-	 */
-	public void requiresAuthentication(String realm) {
-		_authRealm = realm;
 	}
 }
